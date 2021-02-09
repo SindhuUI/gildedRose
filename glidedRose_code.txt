@@ -1,0 +1,92 @@
+gilded_rose.js
+class Item {
+  constructor(name, sellIn, quality) {
+    this.name = name;
+    this.sellIn = sellIn;
+    this.quality = quality;
+  }
+}
+ 
+class Shop {
+  constructor(items = []) {
+    this.items = items;
+  }
+  AgeBrie(obj, index) {
+    if (obj.sellIn >= 0) {
+      if (obj.quality + 1 <= 50) {
+        obj.quality = obj.quality + 1;
+      }
+    }
+    obj.sellIn = obj.sellIn - 1;
+    this.items[index] = obj;
+    return this.items;
+  }
+  BackStagePTC(obj, index) {
+    if (obj.sellIn > 0) {
+      if (obj.sellIn <= 5) {
+        if (obj.quality + 3 <= 50) {
+          obj.quality = obj.quality + 3;
+        }
+      } else if (obj.sellIn <= 10) {
+        if (obj.quality + 2 <= 50) {
+          obj.quality = obj.quality + 2;
+        }
+      } else if (obj.quality < 50) {
+        obj.quality = obj.quality + 1;
+      }
+    } else {
+      obj.quality = 0;
+    }
+    obj.sellIn = obj.sellIn - 1;
+    this.items[index] = obj;
+    return this.items;
+  }
+ 
+  ConjuredManaCake(obj, index) {
+    if (obj.sellIn >= 0) {
+      obj.quality = obj.quality - 2;
+    }
+    obj.sellIn = obj.sellIn - 1;
+    this.items[index] = obj;
+    return this.items;
+  }
+ 
+  ManageInventory(obj, index) {
+    obj.quality = obj.quality - 1;
+    obj.sellIn = obj.sellIn - 1;
+    this.items[index] = obj;
+    return this.items;
+  }
+  Sulfuras(obj, index) {
+    this.items[index] = obj;
+    return this.items;
+  }
+ 
+  updateQuality() {
+    for (let index in this.items) {
+      switch (this.items[index].name) {
+        case "Sulfuras, Hand of Ragnaros":
+          return this.Sulfuras(this.items[index], index);
+ 
+        case "Aged Brie":
+          return this.AgeBrie(this.items[index], index);
+ 
+        case "Backstage passes to a TAFKAL80ETC concert":
+          return this.BackStagePTC(this.items[index], index);
+ 
+        case "Conjured Mana Cake":
+          return this.ConjuredManaCake(this.items[index], index);
+ 
+        default:
+          return this.ManageInventory(this.items[index], index);
+      }
+    }
+  }
+}
+ 
+module.exports = {
+  Item,
+  Shop,
+};
+ 
+
